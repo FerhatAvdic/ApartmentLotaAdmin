@@ -5,7 +5,9 @@ import App from './App'
 import router from './router'
 import firebase from './components/firebaseInit'
 import VueResource from 'vue-resource'
-
+import VueClipboard from 'vue-clipboard2'
+ 
+Vue.use(VueClipboard)
 
 Vue.config.productionTip = false
 Vue.use(VueResource)
@@ -18,6 +20,7 @@ new Vue({
   el: '#app',
   router,
   created(){
+    //On logout/token expired go to login page
         firebase.auth().onAuthStateChanged((user)=> {
             if (user) {
               

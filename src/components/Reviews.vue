@@ -12,11 +12,32 @@
             <li>2. You will receive an email when the session has ended</li>
             <li>3. Get Data to save parsed info to database</li>
           </ul>
+          <div v-if="parsingStartedAt">
+            <p>Parsing started at: {{parsingStartedAt.toString()}}</p>
+            <p>You will receive an email shortly</p>
+          </div>
         </div>
         <div class="card-content">
           <p v-if="!parsedData">No data parsed</p>
         <div v-if="parsedData">
-          <p v-for="p in parsedData" v-bind:key="p">{{p}}</p>
+           <div class="row">
+              <div class="col s12">
+                <table class="table-responsive highlight">
+           <thead><tr><th>Profile</th><th>Name</th><th>Country</th><th>Reviews</th><th>Posted At</th><th>Positive</th><th>Negative</th></tr></thead>
+           <tbody>
+               <tr v-for="r in parsedData" v-bind:key="r.username">
+                    <td><img :src="r.profile"></td>
+                    <td>{{r.name}}</td>
+                    <td>{{r.country}}</td>
+                    <td>{{r.reviewCount}}</td>
+                    <td>{{r.dateOfReview}}</td>
+                    <td>{{r.posReview}}</td>
+                    <td>{{r.negReview}}</td>
+               </tr>
+            </tbody>
+       </table>
+              </div>
+            </div>
         </div>
         </div>
         <div class="card-action center-align">
@@ -29,12 +50,13 @@
 
 <script>
 const apiKey = "tU323y19tgeq"
-const projectToken = "tSaTTNHA2mOy"
+const projectToken = "tv-mhT6bCWX1"
 export default {
   name: 'Reviews',
   data () {
     return {
-      parsedData:null
+      parsedData:null,
+      parsingStartedAt:null
     }
   },
   methods:{
@@ -51,6 +73,7 @@ export default {
         'X-Requested-With': 'XMLHttpRequest'
         }
       }).then(response => {
+        this.parsingStartedAt = response.body.start_time
         console.log(response.body)
         
       }, response => {
@@ -67,7 +90,7 @@ export default {
         }
       }).then(response => {
         console.log("data", response.body)
-        this.parsedData = response.body;
+        this.parsedData = response.body.reviews;
         // success callback
       }, response => {
         console.log("res", response)

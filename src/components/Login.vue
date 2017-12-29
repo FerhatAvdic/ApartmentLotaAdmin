@@ -51,6 +51,8 @@ export default {
   },
   methods:{
       
+      
+
       firebaseLogin(){
         firebase.auth().signInWithEmailAndPassword(this.email, this.password)
         .then((user)=>{

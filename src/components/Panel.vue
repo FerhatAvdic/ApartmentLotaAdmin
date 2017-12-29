@@ -1,20 +1,6 @@
 <template>
   <div id="Panel">
-    <nav class=" teal darken-1">
-      <div class="container">
-        <div class="nav-wrapper">
-          <router-link to="/panel" class="brand-logo">
-            Apartment Lota
-          </router-link>
-        <ul class="right hide-on-med-and-down">
-          <li><router-link to="/reviews">Reviews</router-link></li>
-          <li><router-link to="/gallery">Gallery</router-link></li>
-          <li><router-link to="/posts">Posts</router-link></li>
-          <li><button class="btn waves-effect waves-light white teal-text" type="submit" @click="firebaseLogout" name="action">Logout</button></li>
-        </ul>
-      </div>
-      </div>
-    </nav>
+    <Navbar />
      <div class="container" id="panel-children">
        <router-view></router-view>
      </div>
@@ -23,8 +9,12 @@
 
 <script>
 import firebase from './firebaseInit'
+import Navbar from './Navbar'
 export default {
   name: 'Panel',
+  components:{
+    Navbar
+  },
   data () {
     return {
       

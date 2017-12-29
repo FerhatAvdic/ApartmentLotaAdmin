@@ -1,6 +1,7 @@
 <template>
   <div id="Dashboard" class="valign-wrapper center-align">
           <h1>Welcome to Admin Panel</h1>
+           
   </div>
 </template>
 
