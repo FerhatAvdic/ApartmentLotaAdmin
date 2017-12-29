@@ -19,16 +19,29 @@
 </template>
 
 <script>
+import firebase from './firebaseInit'
 export default {
   name: 'Navbar',
   data () {
     return {
     }
+  },
+  methods:{
+     firebaseLogout(){
+        firebase.auth().signOut().then(()=> {
+        // Sign-out successful.
+        }).catch(function(error) {
+        // An error happened.
+        });
+      }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
+  #navbar{
+    z-index:10000;
+  }
 
 </style>

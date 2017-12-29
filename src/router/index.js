@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import VueJWT from 'vuejs-jwt'
 import firebase from '@/components/firebaseInit'
-import secretKey from '@/components/secretKey'
 import Panel from '@/components/Panel'
 import Dashboard from '@/components/Dashboard'
 import Reviews from '@/components/Reviews'
@@ -11,12 +9,22 @@ import Posts from '@/components/Posts'
 import Login from '@/components/Login'
 
 Vue.use(Router)
-Vue.use(VueJWT)
 
 const router = new Router({
   routes: [
     {
+      path: '*',
+      redirect: '/panel',
+      meta:{
+        requiresAuth:true
+      }
+    },
+    {
       path: '/',
+      redirect: '/login'
+    },
+    {
+      path: '/login',
       name: 'Login',
       component: Login
     },
@@ -40,30 +48,21 @@ const router = new Router({
             path: '/posts',
             component: Posts
         }
-      ]
+      ],
+      meta:{
+        requiresAuth: true
+      }
     }
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  if (!firebase.auth().currentUser)
-      if(to.path !== '/')
-         router.push('/')
-      else
-         next()
-  else {
-    firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
-      const payload = Vue.$jwt.decode(idToken, secretKey)
-      const currentTime = parseInt(new Date().getTime() / 1000)
-      if(payload.exp > currentTime)
-        next()
-      else
-        router.push('/')
-      }).catch(function(error) {
-        // Handle error
-      });
-      
-  }
+router.beforeEach((to,from,next)=>{
+  const currentUser = firebase.auth().currentUser
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+
+  if(requiresAuth && !currentUser) next('login')
+  else if (!requiresAuth && currentUser) next('panel')
+  else next()
 })
 
 export default router

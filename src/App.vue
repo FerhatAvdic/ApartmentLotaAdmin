@@ -12,8 +12,10 @@ export default {
 
 <style>
 #app{
-  height:100%;
-  width:100%;
+  background-color: #f0f0f0;
+}
+.extra-padding{
+  padding: 25px;
 }
 
 </style>

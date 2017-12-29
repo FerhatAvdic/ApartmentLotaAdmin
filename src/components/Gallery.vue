@@ -1,15 +1,16 @@
 <template>
-  <div id="Gallery">
+  <div id="Gallery" class="container">
+      
         <div class="row">
             <div class="col m6 s12">
-                <div class="card blue-grey darken-1">
+                <div class="card">
                     <form>
-                        <div class="card-content white-text">
-                        <span class="card-title">Select Photo Folder</span>
+                        <div class="card-content">
+                        <span class="card-title">Photo Upload</span>
                         <div class="row">
                             <div class="browser-default col s12">
                                 <select v-model="selectedPath" required>
-                                    <option value="" disabled selected>Choose your option</option>
+                                    <option value="" disabled selected>Choose folder</option>
                                     <option value="homePhotos">Homepage</option>
                                     <option value="postPhotos">News Feed</option>
                                 </select>
@@ -21,9 +22,12 @@
                                 <input type="file" multiple accept="image/*" @change="processFiles($event)" required>
                             </div>
                             <div class="file-path-wrapper">
-                                <input class="file-path validate white-text" type="text">
+                                <input class="file-path validate" type="text">
                             </div>
-                        </div>
+                        </div>            
+                    <div class="progress" v-if="uploadOn">
+                        <div class="determinate" v-bind:style="{widht: uploadProgress + '%'}"></div>
+                    </div>
                     </div>
                     <div class="card-action">
                         <button type="submit" @click="uploadPhotos()" class="waves-effect waves-light btn">Upload</button>
@@ -32,13 +36,27 @@
                 </div>
                 
             </div>
+            <div class="col m6 s12">
+                <div class="card">
+                    <div class="valign-wrapper align-center minheight" v-if="!previewOn">
+                    <div class="jcenter">
+                        <p>Click image for preview</p>
+                    </div>
+                </div>
+                <div class="previewPicture valign-wrapper align-center minheight" v-if="previewOn" @click="closePreview">
+                    <div class="jcenter">
+                        <img :src="photoPreview" class="fit">
+                    </div>
+                </div>
+                </div>
+            </div>
         </div>
             
         <div class="row">
-            <h3>News Feed</h3>
             <div class="col s12">
-                    <div class="card">
-                        <table class="table-responsive highlight">
+                    <div class="card extra-padding">
+                        <span class="card-title">News Feed</span>
+                        <table class="responsive-table highlight">
                         <thead>
                             <tr><th>Name</th><th>Path</th><th>Preview</th><th>Options</th></tr>
                         </thead>
@@ -46,7 +64,7 @@
                             <tr v-for="photo in postPhotos" v-bind:key="photo.url">
                                 <td>{{photo.name}}</td>
                                 <td>{{photo.path}}</td>
-                                <td><img :src="photo.url" class="preview"></td>
+                                <td><img :src="photo.url" class="preview" @click="openPreview(photo.url)"></td>
                                 <td><i class="fa fa-times pointer" @click="deletePhoto(photo, 'postPhotos')"></i></td>
                             </tr>
                         </tbody>
@@ -55,10 +73,11 @@
             </div>
         </div>
         <div class="row">
-        <h3>Homepage</h3>
             <div class="col s12">
-                <div class="card">
-                    <table class="table-responsive highlight">
+                <div class="card extra-padding">
+                    
+                        <span class="card-title">Homepage</span>
+                    <table class="responsive-table highlight">
                     <thead>
                         <tr><th>Name</th><th>Path</th><th>Preview</th><th>Options</th></tr>
                     </thead>
@@ -66,7 +85,7 @@
                         <tr v-for="photo in homePhotos" v-bind:key="photo.url">
                                 <td>{{photo.name}}</td>
                                 <td>{{photo.path}}</td>
-                                <td><img :src="photo.url" class="preview"></td>
+                                <td><img :src="photo.url" class="preview" @click="openPreview(photo.url)"></td>
                                 <td><i class="fa fa-times pointer" @click="deletePhoto(photo, 'homePhotos')"></i></td>
                         </tr>
                         </tbody>
@@ -74,6 +93,8 @@
                 </div>
             </div>
         </div>
+        
+               
   </div>
 </template>
 
@@ -92,7 +113,11 @@ export default {
       photosToUpload: [],
       homePhotos: [],
       postPhotos:[],
-      selectedPath: ""
+      selectedPath: "",
+      uploadProgress:null,
+      uploadOn:false,
+      previewOn: false,
+      photoPreview: null
     }
   },
   methods:{
@@ -108,7 +133,7 @@ export default {
                             'url':doc.data().url
                         }
                         this.homePhotos.push(homePhoto)
-                        console.log("photos", homePhoto)
+                        //console.log("photos", homePhoto)
                     });
         });
         db.collection("postPhotos").get().then(querySnapshot => {
@@ -120,7 +145,7 @@ export default {
                             'url':doc.data().url
                         }
                         this.postPhotos.push(postPhoto)
-                        console.log("photos", postPhoto)
+                        //console.log("photos", postPhoto)
                     });
         });  
     },
@@ -128,6 +153,7 @@ export default {
         this.photosToUpload = event.target.files
     },
     uploadPhotos(){
+        this.uploadOn=true;
         const ref = this.selectedPath
         Array.from(this.photosToUpload).forEach(photo => { 
             var uploadTask = storageRef.child(ref +"/"+ photo.name).put(photo);
@@ -138,8 +164,8 @@ export default {
             uploadTask.on('state_changed', function(snapshot){
             // Observe state change events such as progress, pause, and resume
             // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
+            this.uploadProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + this.uploadProgress + '% done');
             
             }, error => {
             // Handle unsuccessful uploads
@@ -162,6 +188,7 @@ export default {
                         console.error("Error adding document: ", error);
                 })
             })
+            this.uploadOn=false
          })
     },
     deletePhoto(photo, collection){
@@ -182,6 +209,14 @@ export default {
             })
         }
         
+    },
+    openPreview(url){
+        this.previewOn=true
+        this.photoPreview = url
+    },
+    closePreview(){
+        this.photoPreview=null
+        this.previewOn=false
     }
     },
     created(){
@@ -201,5 +236,19 @@ export default {
     }
     select{
         display:block;
+    }
+    .previewPicture{
+        background-color:black;
+    }
+    .fit{
+        max-height:285px;
+        max-width:100%;
+    }
+    .minheight{
+        min-height:285px;
+        overflow: hidden;
+    }
+    .jcenter{
+        justify-content:center
     }
 </style>

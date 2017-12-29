@@ -1,5 +1,5 @@
 <template>
-  <div id="Posts">
+  <div id="Posts" class="container">
     <form>
       <div class="row">
         <div class="col s12 m12">
@@ -47,7 +47,8 @@
    
     <div class="row">
       <div class="col s12">
-        <table class="table-responsive highlight">
+        <div class="card extra-padding">
+          <table class="responsive-table highlight">
             <thead><tr><th>CreatedAt</th><th>Title</th><th>Body</th><th>Options</th></tr></thead>
             <tbody>
                 <tr v-for="post in posts" v-bind:key="post.id">
@@ -58,6 +59,7 @@
                 </tr>
               </tbody>
         </table>
+        </div>
       </div>
     </div>
   </div>

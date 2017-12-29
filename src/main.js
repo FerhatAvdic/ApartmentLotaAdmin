@@ -5,14 +5,13 @@ import App from './App'
 import router from './router'
 import firebase from './components/firebaseInit'
 import VueResource from 'vue-resource'
-import VueClipboard from 'vue-clipboard2'
- 
-Vue.use(VueClipboard)
+import materialize from 'materialize-css'
+import 'materialize-css/dist/css/materialize.min.css'
+import 'materialize-css/dist/js/materialize.min.js'
 
 Vue.config.productionTip = false
 Vue.use(VueResource)
-
-const gooogleApiUrl = "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com"
+Vue.use(materialize)
 
 
 /* eslint-disable no-new */
@@ -28,16 +27,6 @@ new Vue({
               router.push('/')
             }
         })
-        /*this.$http.get(gooogleApiUrl).then(response => {
-          //get max-age from cache control in header
-          const maxAgeStr = response.headers.get('cache-control').split(', ').filter(s => s.includes('max-age'))[0]
-          const maxAge = parseInt(maxAgeStr.substring(maxAgeStr.indexOf('=') + 1))
-          console.log(maxAge)
-          localStorage.setItem('maxAge', maxAge)
-      
-        }, response => {
-          // error callback
-        })*/
   },
   template: '<App/>',
   components: { App }
