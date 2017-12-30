@@ -38,16 +38,12 @@
             </div>
             <div class="col m6 s12">
                 <div class="card">
-                    <div class="valign-wrapper align-center minheight" v-if="!previewOn">
-                    <div class="jcenter">
+                    <div class="valign-wrapper align-center minheight jcenter" v-if="!previewOn">
                         <p>Click image for preview</p>
                     </div>
-                </div>
-                <div class="previewPicture valign-wrapper align-center minheight" v-if="previewOn" @click="closePreview">
-                    <div class="jcenter">
+                    <div class="previewPicture valign-wrapper align-center minheight jcenter" v-if="previewOn" @click="closePreview">
                         <img :src="photoPreview" class="fit">
                     </div>
-                </div>
                 </div>
             </div>
         </div>
