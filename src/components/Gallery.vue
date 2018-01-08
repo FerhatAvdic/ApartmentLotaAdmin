@@ -79,21 +79,25 @@
                 <v-card-text>
                 <v-container grid-list-md>
                     <v-layout wrap>
-                    <form>
+                    <v-flex xs12>
+                        <v-form v-model="valid">
                         <v-text-field
                         name="position"
                         label="Position"
                         id="position"
+                        type="number"
                         v-model="currentPhoto.position"
+                        required
                         ></v-text-field>
-                    </form>
+                    </v-form>
+                    </v-flex>
                     </v-layout>
                 </v-container>
                 </v-card-text>
                 <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" flat @click.native="cancelPosition()">Cancel</v-btn>
-                <v-btn color="teal darken-1" flat @click.native="positionPhoto(currentPhoto, 'homePhotos')">Submit</v-btn>
+                <v-btn color="teal darken-1" flat @click.native="positionPhoto(currentPhoto, 'homePhotos')" :disabled="!valid">Submit</v-btn>
                 </v-card-actions>
             </v-card>
             </v-dialog>
@@ -114,26 +118,27 @@ export default {
   name: 'Gallery',
   data () {
     return {
-      photosToUpload: [],
-      homePhotos: [],
-      postPhotos:[],
-      tableHeaders:[{text:"preview", value: "url"},{text:"Position", value: "position"},{text:"name", value: "name"},{text:"path", value: "path"},{text:"options", value: "options",sortable: false,}],
-      selectedPath: "",
-      folders:[{text:"Gallery", value: "homePhotos"}, {text: "Reviews", value:"postPhotos"}],
-      uploadProgress:null,
-      uploadOn:false,
-      previewOn: false,
-      photoPreview: null,
-      uploadDialog: false,
-      previewDialog: false,
-      positionDialog:false,
-      currentPhoto: {
-        'id': null,
-        'name': null,
-        'path':null,
-        'url':null,
-        'position':null,
-      }
+        valid: true,
+        photosToUpload: [],
+        homePhotos: [],
+        postPhotos:[],
+        tableHeaders:[{text:"preview", value: "url"},{text:"Position", value: "position"},{text:"name", value: "name"},{text:"path", value: "path"},{text:"options", value: "options",sortable: false,}],
+        selectedPath: "",
+        folders:[{text:"Gallery", value: "homePhotos"}, {text: "Reviews", value:"postPhotos"}],
+        uploadProgress:null,
+        uploadOn:false,
+        previewOn: false,
+        photoPreview: null,
+        uploadDialog: false,
+        previewDialog: false,
+        positionDialog:false,
+        currentPhoto: {
+            'id': null,
+            'name': null,
+            'path':null,
+            'url':null,
+            'position':null,
+        }
     }
   },
   methods:{
