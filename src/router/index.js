@@ -5,7 +5,7 @@ import Panel from '@/components/Panel'
 import Dashboard from '@/components/Dashboard'
 import Reviews from '@/components/Reviews'
 import Gallery from '@/components/Gallery'
-import Posts from '@/components/Posts'
+import Services from '@/components/Services'
 import Login from '@/components/Login'
 
 Vue.use(Router)
@@ -45,8 +45,8 @@ const router = new Router({
             component: Gallery
         },
         {
-            path: '/posts',
-            component: Posts
+            path: '/services',
+            component: Services
         }
       ],
       meta:{

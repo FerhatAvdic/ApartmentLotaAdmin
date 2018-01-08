@@ -1,25 +1,64 @@
 <template>
   <div id="Panel">
-    <Navbar />
-       <router-view></router-view>
+      <v-app>
+        <v-toolbar app color="teal" dark>
+          <v-toolbar-side-icon @click="toggleNav"><v-icon>fa-bars</v-icon></v-toolbar-side-icon>
+          <v-toolbar-title>Apartmani Lota</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn icon @click="firebaseLogout">
+            <v-icon icon class="right">fa-sign-out</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <v-content app>
+          <router-view></router-view>
+        </v-content>
+        <v-navigation-drawer app light fixed v-model="navActive">
+          <v-list dense class="pt-0">
+            <v-list-tile class="list__tile--link" v-for="item in nav" :key="item.title" @click="goTo(item.route)">
+              <v-list-tile-action>
+                <v-icon>{{ item.icon }}</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+        </v-navigation-drawer>
+      <v-footer app color="teal"></v-footer>
+    </v-app>
   </div>
 </template>
 
 <script>
+import router from '../router'
 import firebase from './firebaseInit'
-import Navbar from './Navbar'
 export default {
   name: 'Panel',
-  components:{
-    Navbar
-  },
   data () {
     return {
-      
+      navActive: true,
+      nav:[
+        {title: "Dashboard", route:"/dashboard", icon:"fa-bar-chart"},
+        {title: "Gallery", route:"/gallery", icon:"fa-picture-o"},
+        {title: "Services", route:"/services", icon:"fa-bell-o"},
+        {title: "Reviews", route:"/reviews", icon:"fa-star-o"}
+      ]
     }
   },
   methods:{
-     
+     firebaseLogout(){
+        firebase.auth().signOut().then(()=> {
+        // Sign-out successful.
+        }).catch(function(error) {
+        // An error happened.
+        });
+      },
+      toggleNav(){
+        this.navActive = !this.navActive;
+      },
+      goTo(route){
+        router.push(route)
+      }
   }
 }
 </script>
@@ -28,7 +67,9 @@ export default {
 <style scoped>
 #Panel{
     height:100%;
-    
+}
+div .list__tile__action{
+  width:auto;
 }
 
 </style>

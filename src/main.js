@@ -5,14 +5,13 @@ import App from './App'
 import router from './router'
 import firebase from './components/firebaseInit'
 import VueResource from 'vue-resource'
-import materialize from 'materialize-css'
-import 'materialize-css/dist/css/materialize.min.css'
-import 'materialize-css/dist/js/materialize.min.js'
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
+ 
 
 Vue.config.productionTip = false
 Vue.use(VueResource)
-Vue.use(materialize)
-
+Vue.use(Vuetify)
 
 /* eslint-disable no-new */
 new Vue({

@@ -1,7 +1,12 @@
 <template>
-  <div id="Dashboard" class="valign-wrapper center-align">
-      <div class="full-width text-teal"><h2>Welcome to Admin Panel</h2></div>
-  </div>
+<div id="Dashboard">
+  <v-container fluid class="bg">
+    <div class="flex-wrapper white--text">
+        <h2 class="display-3" >Welcome to Admin Panel</h2>
+        <v-btn id="linkToLota" color="pink darken-2" round large dark href="https://www.apartmani-lota.com" target="_blank">Lota Home <v-icon right>fa-external-link</v-icon></v-btn>
+    </div>
+  </v-container>
+</div>
 </template>
 
 <script>
@@ -17,14 +22,24 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#Dashboard{
-  height: calc(100vh - 65px);
+#Dashboard, .container, .layout, .flex{
+  height:100%;
 }
-.full-width{
-  width:100%;
+.bg{
+  background-image: url('../assets/img/dashboard.jpg');
+  background-color: rgba(10, 99, 80, 0.685);
+  background-size:cover;
+  background-blend-mode:multiply ;
 }
-.text-teal{
-  color: teal;
-  text-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+.flex-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+  padding: 50px;
+}
+#linkToLota{
+  margin-right: 0;
 }
 </style>

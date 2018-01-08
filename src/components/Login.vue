@@ -1,38 +1,33 @@
 <template>
-  <div id="Login" class="valign-wrapper">
-    <div class="container">
-         <div class="row">
-            <div class="col m4 offset-m4 s12" >
-                <form @submit.prevent="firebaseLogin">
-                    <div class="card">
-                        <div class="card-content teal darken-1 white-text center-align">
-
-                        <span class="card-title">Apartment Lota Admin</span>
-                        </div>
-                        <div class="card-content">
-                        
-                        <div class="row">
-                            <div class="input-field col m10 offset-m1 s12">
-                                <input v-model="email" id="email" type="email" class="validate" required>
-                                <label for="email">Email</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="input-field col m10 offset-m1 s12">
-                                <input v-model="password" id="password" type="password" class="validate" required>
-                                <label for="password">Password</label>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="card-action center-align">
-                            <button class="btn waves-effect waves-light teal darken-1" type="submit" name="action">Login</button>
-                        </div>
-                    </div>
+  <div id="Login">
+    <v-app>
+        <v-container fluid fill-height>
+        <v-layout flex align-center justify-center>
+          <v-flex md3 xs11>
+               <form @submit.prevent="firebaseLogin">
+                <v-card>
+                    <v-toolbar class="teal">
+                        <div class="stretch headline white--text text-xs-center">Apartment Lota Admin</div>
+                    </v-toolbar>
+                    <v-card-text>
+                        <v-layout column>
+                            <v-flex xs10 offset-xs1>
+                                <v-text-field v-model="email" color="teal" name="email" type="text" label="Email" id="email" required></v-text-field>
+                            </v-flex>
+                            <v-flex xs10 offset-xs1>
+                                <v-text-field v-model="password" color="teal" name="password" type="password" label="Password" id="password" required></v-text-field>
+                            </v-flex>
+                        </v-layout>
+                    </v-card-text>
+                    <v-card-actions class="justify-center">
+                        <v-btn dark color="teal" type="submit">LOGIN</v-btn>
+                    </v-card-actions>
+                </v-card>
                 </form>
-               
-            </div>
-        </div>
-    </div>
+            </v-flex>
+      </v-layout>
+    </v-container>
+    </v-app>
   </div>
 </template>
 
@@ -44,9 +39,7 @@ export default {
   data() {
     return {
       email: null,
-      password: null,
-      logged:null,
-      user: null
+      password: null
     };
   },
   methods:{
@@ -70,6 +63,7 @@ export default {
       
   }
 };
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -77,17 +71,24 @@ export default {
 
 #Login{
       height: 100vh;
-
 }
-
-/* label focus color */
- .input-field input:focus + label {
-   color: #00897b !important;
- }
- /* label underline focus color */
- .row .input-field input:focus {
-   border-bottom: 1px solid #00897b !important;
-   box-shadow: 0 1px 0 0 #00897b !important
- }
-
+.toolbar{
+    padding: 15px 0;
+}
+.card__text{
+    padding: 35px 25px;
+}
+.input-group{
+    padding-top:25px;
+}
+.card__actions{
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding: 15px 4px;
+}
+.btn{
+    padding: 0 15px;
+}
+.stretch{
+    width:100%;
+}
 </style>
