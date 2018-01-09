@@ -1,5 +1,5 @@
 <template>
-    <div id="Intro" class="bg">
+    <div id="Intro">
         <v-container fluid>
             <v-layout row justify-center>
             <v-flex md6 xs12>
