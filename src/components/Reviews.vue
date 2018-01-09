@@ -1,11 +1,12 @@
 <template>
     <div id="Reviews">
         <!--Review TABLE-->
-        <v-layout row justify-center>
-            <v-flex>
+       <v-container fluid>
+            <v-layout row justify-center>
+            <v-flex md11 xs12>
                 <v-card>
                     <v-card-title class="headline pink darken-2 white--text">Reviews</v-card-title>
-                    <v-data-table v-bind:headers="tableHeaders" :items="reviews" hide-actions class="elevation-1" dark>
+                    <v-data-table v-bind:headers="tableHeaders" :items="reviews" hide-actions class="elevation-1">
                         <template slot="items" slot-scope="props">
                             <td class="text-xs-right"><img :src="props.item.profileUrl" class="profile-preview"></td>
                             <td class="text-xs-right">{{ props.item.position }}</td>
@@ -20,6 +21,7 @@
                 </v-card>
             </v-flex>
         </v-layout>
+       </v-container>
         <v-btn color="pink darken-2" dark fixed bottom right fab @click.native.stop="newReviewDialog = !newReviewDialog">
             <v-icon>fa-plus</v-icon>
         </v-btn>

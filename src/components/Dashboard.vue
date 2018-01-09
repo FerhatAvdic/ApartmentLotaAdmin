@@ -25,12 +25,12 @@ export default {
 #Dashboard, .container, .layout, .flex{
   height:100%;
 }
-.bg{
+/*.bg{
   background-image: url('../assets/img/dashboard.jpg');
   background-color: rgba(10, 99, 80, 0.685);
   background-size:cover;
   background-blend-mode:multiply ;
-}
+}*/
 .flex-wrapper{
   display: flex;
   flex-direction: column;

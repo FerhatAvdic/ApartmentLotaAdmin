@@ -9,10 +9,12 @@
             <v-icon icon class="right">fa-sign-out</v-icon>
           </v-btn>
         </v-toolbar>
-        <v-content app>
+        <v-content app class="bg">
           <router-view></router-view>
         </v-content>
         <v-navigation-drawer app light fixed v-model="navActive">
+          <div class="black-logo"></div>
+          <v-divider></v-divider>
           <v-list dense class="pt-0">
             <v-list-tile class="list__tile--link" v-for="item in nav" :key="item.title" @click="goTo(item.route)">
               <v-list-tile-action>
@@ -39,8 +41,10 @@ export default {
       navActive: true,
       nav:[
         {title: "Dashboard", route:"/dashboard", icon:"fa-bar-chart"},
-        {title: "Gallery", route:"/gallery", icon:"fa-picture-o"},
+        {title: "Introduction", route:"/intro", icon:"fa-comment-o"},
+        {title: "Intro Background", route:"/introbg", icon:"fa-file-image-o"},
         {title: "Services", route:"/services", icon:"fa-bell-o"},
+        {title: "Gallery", route:"/gallery", icon:"fa-picture-o"},
         {title: "Reviews", route:"/reviews", icon:"fa-star-o"}
       ]
     }
@@ -71,5 +75,17 @@ export default {
 div .list__tile__action{
   width:auto;
 }
-
+.bg{
+  background-image: url('../assets/img/dashboard.jpg');
+  background-color: rgba(10, 99, 80, 0.685);
+  background-size:cover;
+  background-blend-mode:multiply ;
+  background-repeat:no-repeat;
+  background-attachment: fixed;
+}
+.black-logo{
+  height: 200px;
+  margin: 25px;
+  background-image: url('../assets/img/lota-logo.svg');
+}
 </style>

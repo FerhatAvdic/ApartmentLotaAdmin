@@ -7,6 +7,8 @@ import Reviews from '@/components/Reviews'
 import Gallery from '@/components/Gallery'
 import Services from '@/components/Services'
 import Login from '@/components/Login'
+import Intro from '@/components/Intro'
+import IntroBg from '@/components/IntroBg'
 
 Vue.use(Router)
 
@@ -47,6 +49,14 @@ const router = new Router({
         {
             path: '/services',
             component: Services
+        },
+        {
+            path: '/intro',
+            component: Intro
+        },
+        {
+            path: '/introbg',
+            component: IntroBg
         }
       ],
       meta:{

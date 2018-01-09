@@ -1,8 +1,9 @@
 <template>
   <div id="Gallery" >
       <!--GALLERY TABLE-->
-        <v-layout row justify-center>
-            <v-flex>
+        <v-container fluid>
+            <v-layout row justify-center>
+            <v-flex md11 xs12>
                 <v-card>
                     <v-card-title class="headline pink darken-2 white--text">Gallery</v-card-title>
                     <v-data-table
@@ -10,7 +11,6 @@
                         :items="homePhotos"
                         hide-actions
                         class="elevation-1"
-                        dark
                         >
                         <template slot="items" slot-scope="props">
                             <td><img :src="props.item.url" class="preview pointer" @click="openPreview()"></td>
@@ -25,9 +25,10 @@
                     </v-data-table>
                 </v-card>
             </v-flex>
-        </v-layout>    
+        </v-layout>   
+        </v-container> 
         <v-btn color="pink darken-2" dark fixed bottom right fab @click.native.stop="uploadDialog = !uploadDialog">
-            <v-icon>fa-plus</v-icon>
+            <v-icon>fa-upload</v-icon>
         </v-btn>
 <!--PREVIEW MODAL-->
 <v-layout row>
@@ -145,7 +146,7 @@ export default {
     listPhotos(){
         this.homePhotos=[]
         this.postPhotos=[]
-        db.collection("homePhotos").get().then(querySnapshot => {
+        db.collection("homePhotos").orderBy('position').get().then(querySnapshot => {
                     querySnapshot.forEach(doc => {
                         const homePhoto = {
                             'id': doc.id,
@@ -155,7 +156,7 @@ export default {
                             'position':doc.data().position
                         }
                         this.homePhotos.push(homePhoto)
-                        //console.log("photos", homePhoto)
+                        //console.log("photos", homePhoto.position)
                     })
         })
     },
@@ -279,13 +280,16 @@ export default {
     max-width:100%;
 }
 .preview{
-    width: 400px;
+    width: 300px;
     max-width: 100vw;
+}
+@media only screen and (max-width: 900px){
+    .preview{
+    width: 100px;
+    max-width: 100vw;
+}
 }
 .pointer{
     cursor:pointer;
-}
-.datatable tbody td:first-child{
-    padding-left: 0;
 }
 </style>
